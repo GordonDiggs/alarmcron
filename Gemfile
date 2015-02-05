@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+
+gem 'sinatra'
+gem 'puma'
+gem 'haml'
+gem 'sass'
+gem 'data_mapper'
+gem 'dm-sqlite-adapter'
+gem 'bson_ext'
+gem 'sinatra-config-file', require: 'sinatra/config_file'
