@@ -1,0 +1,16 @@
+!!!
+%html
+  %head
+    = bootstrap_assets
+    %script{ type: 'text/javascript', src: 'https://code.jquery.com/ui/1.11.2/jquery-ui.min.js' }
+    %title Alarmcron
+  %body
+    %form
+      - container :fluid do
+        %h1.text-center Alarmcron
+        - (0..7).each do |day|
+          - row do
+            - span12 do
+              - alarm = Alarm.first(day: day)
+              - if alarm
+                = alarm.inspect

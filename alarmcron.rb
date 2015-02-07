@@ -3,6 +3,12 @@ require 'bundler'
 
 Bundler.require
 
+configure :development do
+  require "better_errors"
+  use BetterErrors::Middleware
+  BetterErrors.application_root = __dir__
+end
+
 configure do
   {
     'crontab' => 'cron.txt',
@@ -12,6 +18,8 @@ configure do
     ENV[key] = value
   end
 
+  register Sinatra::Twitter::Bootstrap::Assets
+
   DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/alarmcron.db")
   require_relative "models/alarm"
   require_relative 'alarm_crontab'
@@ -20,9 +28,5 @@ configure do
 end
 
 get '/' do
-  return AlarmCrontab.new.update
-
-  Alarm.create(starts_at: Time.now, ends_at: Time.now, day: '1')
-  @alarms = Alarm.all
-  "#{settings.crontab} #{settings.start_command} #{settings.stop_command} #{@alarms.inspect}"
+  haml :index
 end
