@@ -1,0 +1,2 @@
+require "./alarmcron"
+run Alarmcron
