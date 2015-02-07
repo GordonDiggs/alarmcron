@@ -2,6 +2,14 @@
 
 Sinatra app to start and stop things at a specific time
 
+## Running
+
+```
+gem install bundler
+bundle install
+rackup
+```
+
 ## License
 
 The MIT License (MIT)
