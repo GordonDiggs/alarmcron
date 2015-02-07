@@ -8,9 +8,20 @@ class Alarm
   property :ends_at, DateTime, required: true
   property :day, Integer, required: true, unique: true
 
+  validates_with_method :validate_date_range
+
   after :save, :update_crontab
 
-  private def update_crontab
-    # AlarmCrontab.update
+  private
+  def update_crontab
+    AlarmCrontab.new.update
+  end
+
+  def validate_date_range
+    if ends_at > starts_at
+      true
+    else
+      [false, "End time must be after start time"]
+    end
   end
 end
