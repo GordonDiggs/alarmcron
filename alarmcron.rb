@@ -1,5 +1,4 @@
 require 'bundler'
-
 Bundler.require
 
 class Alarmcron < Sinatra::Base
@@ -10,6 +9,8 @@ class Alarmcron < Sinatra::Base
   end
 
   configure do
+    Dir["./presenters/*.rb"].each {|file| require file }
+
     {
       'crontab' => 'cron.txt',
       'start_command' => 'echo started',
@@ -17,8 +18,6 @@ class Alarmcron < Sinatra::Base
     }.each do |key, value|
       ENV[key] = value
     end
-
-    register Sinatra::Twitter::Bootstrap::Assets
 
     DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/alarmcron.db")
     require_relative "models/alarm"
@@ -28,6 +27,8 @@ class Alarmcron < Sinatra::Base
   end
 
   get '/' do
+    puts params.inspect
+    @presenter = AlarmPresenter.new
     haml :index
   end
 end
