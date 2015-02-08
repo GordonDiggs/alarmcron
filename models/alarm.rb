@@ -12,6 +12,12 @@ class Alarm
 
   after :save, :update_crontab
 
+  [:starts_at, :ends_at].each do |meth|
+    define_method "#{meth}_time" do
+      self.send(meth).strftime("%-l:%M %P")
+    end
+  end
+
   private
   def update_crontab
     AlarmCrontab.new.update
